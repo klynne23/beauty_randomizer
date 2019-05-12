@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en" class="has-navbar-fixed-top">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Add</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+        integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+</head>
+
+<style>
+    @import url('https://fonts.googleapis.com/css?family=Pacifico');
+
+    html {
+        background-image: url('https://images.unsplash.com/photo-1526045478516-99145907023c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80');
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-position: center;
+    }
+
+    body {
+        min-height: 100vh;
+    }
+
+    .navbar {
+        background-color: rgba(255, 255, 255, 0.24);
+    }
+
+    #nav-title {
+        font-family: 'Pacifico';
+        font-size: 2rem;
+        letter-spacing: 3px;
+        color: white;
+        text-shadow: 1px 1px 10px #ff6eff, 1px 1px 10px #ff00ddda;
+    }
+
+    .button {
+        background-color: #ffffff;
+        border-color: #ffbfff;
+        transition: .5s;
+        color: rgb(255, 255, 255);
+
+    }
+
+    .button span {
+        color: #ff8bff;
+        transition: .5s;
+    }
+
+    .button:hover {
+        border-color: black;
+    }
+
+    .button:hover span {
+        color: black;
+    }
+
+
+    .view-title {
+        margin-top: 10px;
+    }
+
+    .view-title.level {
+        margin-bottom: 0px;
+    }
+
+    .view-title p {
+        font-size: 4rem;
+        color: white;
+        font-family: 'Pacifico';
+        text-shadow: 1px 1px 10px #ffbfff, 1px 1px 10px #ff00ddda;
+    }
+
+    /* success/error messages */
+
+    .successMessageContent,
+    .errorMessageContent {
+        display: flex;
+        margin: 0 0 20px 0;
+        transition: 1s;
+    }
+
+    .messageHidden {
+        display: none;
+    }
+
+    .message.is-success,
+    .message.is-danger {
+        margin: 0 auto;
+        background: rgba(255, 255, 255, .8);
+        text-align: center;
+    }
+
+    .message.is-danger {
+        width: 20%;
+    }
+
+    #successMessageHeader,
+    #errorMessageHeader {
+        margin: auto;
+    }
+
+    button.errorDelete.delete,
+    button.successDelete.delete {
+        margin-left: 20px;
+    }
+
+    /* add items form */
+    .add-item-form {
+        margin-top: 10px;
+    }
+
+    .columns {
+        margin-left: 0;
+        margin-right: 0;
+        margin-top: 0;
+    }
+
+    .label {
+        color: white;
+        text-shadow: 1px 1px 5px black;
+    }
+
+    @media screen and (max-width: 1087px) {
+        .navbar-menu {
+            background-color: rgba(255, 255, 255, 0);
+        }
+    }
+
+</style>
+
+<body id='add'>
+    <nav class="navbar is-transparent is-fixed-top">
+        <div class="navbar-brand">
+            <p class="navbar-item">
+                <span id='nav-title'>Makeup Randomizer</span>
+            </p>
+            <div class="navbar-burger burger" data-target="navbarExampleTransparentExample">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+
+        <div class="navbar-menu">
+            <div class="navbar-end">
+                <div class="navbar-item">
+                    <div class="field is-grouped">
+                        <p class="control">
+                            <a class="button" href="/">
+                                <span class="icon">
+                                    <i class="fas fa-home"></i>
+                                </span>
+                                <!-- <span> Home </span> -->
+                            </a>
+                        </p>
+                        <p class="control">
+                            <a class="button" href="/viewAllItems">
+                                <span class="icon">
+                                    <i class="fas fa-eye"></i>
+                                </span>
+                                <!-- <span>View All</span> -->
+                            </a>
+                        </p>
+                        <p class="control">
+                            <a class="button" href="/viewSaved">
+                                <span class="icon">
+                                    <i class="fas fa-star"></i>
+                                </span>
+                                <!-- <span>Saved Looks</span> -->
+                            </a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="view-title level">
+        <p class="level-item has-text-centered">
+            Add a Product!
+        </p>
+    </div>
+    <div class="successMessageContent messageHidden">
+        <article class="message is-success">
+            <div class="message-header">
+                <p id='successMessageHeader'>Success!</p>
+                <button class="successDelete delete" aria-label="delete"></button>
+            </div>
+            <div class="message-body" id='successMessageBody'>
+            </div>
+        </article>
+    </div>
+    <div class="errorMessageContent messageHidden">
+        <article class="message is-danger">
+            <div class="message-header">
+                <p id='errorMessageHeader'>ERROR!</p>
+                <button class="errorDelete delete" aria-label="delete"></button>
+            </div>
+            <div class="message-body" id='errorMessageBody'>
+            </div>
+        </article>
+    </div>
+
+
+    <!-- form -->
+    <div class='add-item-form container'>
+        <div class="columns">
+            <div class="column">
+                <div class="control">
+                    <label class="label">Category</label>
+                    <div class="select is-fullwidth">
+                        <select id='categoriesSelect'>
+                            <option value="invalid">(Select One)</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="column">
+                <div class="field">
+                    <label class="label">Quality</label>
+                    <!-- <div class="control">
+                        <input id='price' class="input" type="text" placeholder="$0.00">
+                    </div> -->
+                    <div class="select is-fullwidth">
+                        <select id='qualitySelect'>
+                            <option value='invalid'>(Select One)</option>
+                            <option>High End</option>
+                            <option>Low End</option>
+                            <option>Drugstore</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="columns">
+            <div class="column">
+                <div class="field">
+                    <label class="label">Brand</label>
+                    <div class="control">
+                        <input id='brand' class="input" type="text" placeholder="brand">
+                    </div>
+                </div>
+            </div>
+            <div class="column">
+                <div class="field">
+                    <label class="label">Color</label>
+                    <div class="control">
+                        <input id='color' class="input" type="text" placeholder="color">
+                    </div>
+                </div>
+            </div>
+            <div class="column">
+                <div class="field">
+                    <label class="label">Size</label>
+                    <div class="control">
+                        <input id='size' class="input" type="text" placeholder="color">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="columns is-centered">
+            <div class="column is-1">
+                <a class="button is-success submitButton">Submit</a>
+            </div>
+            <!-- <div class="column is-1">
+                <a href="/api/viewcategories">View Saved Looks</a>
+            </div> -->
+        </div>
+
+        <div class="view-title level">
+            <p class="level-item has-text-centered">
+                Add a Category!
+            </p>
+        </div>
+        <div class="add-category container">
+            <div class="columns">
+                <div class="column">
+                    <div class="field">
+                        <label class="label">Category</label>
+                        <div class="control">
+                            <input id='newCategory' class="input" type="text" placeholder="category name">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="columns is-centered">
+            <div class="column is-1">
+                <a class="button is-success categorySubmitButton">Submit</a>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        $(document).ready(function () {
+
+            let categories = [];
+            let $submitButton = $(".submitButton");
+            let $categorySubmit = $('.categorySubmitButton');
+
+            // Check for click events on the navbar burger icon
+            $(".navbar-burger").click(function () {
+
+                // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
+                $(".navbar-burger").toggleClass("is-active");
+                $(".navbar-menu").toggleClass("is-active");
+
+            });
+            $('.errorDelete').click(() => {
+                $('.errorMessageContent').addClass('messageHidden');
+            })
+            $('.successDelete').click(() => {
+                $('.successMessageContent').addClass('messageHidden');
+            })
+
+            renderSelect = (categories) => {
+                let $select = $("#categoriesSelect").empty();
+                var option = $("<option>").text('(Select One)').attr('value', 'invalid');
+                $select.append(option);
+
+
+                categories = categories.sort();
+
+                categories.forEach(category => {
+                    var option = $("<option>").text(category);
+                    $select.append(option);
+                })
+            }
+
+            getCategories = () => {
+                // get request for the makeup data
+                $.get('/api/makeup', (data) => {
+                    data.forEach(category => {
+                        value = category.category.toUpperCase();
+                        categories.push(value);
+                    });
+                    renderSelect(categories);
+                });
+            }
+
+            validateItem = (category, quality, brand, color, size) => {
+                if (category === 'invalid') {
+                    return false;
+                }
+                if (quality === 'invalid') {
+                    return false;
+                }
+                if (brand === '') {
+                    return false;
+                }
+                if (color === '') {
+                    return false;
+                }
+                if (size === '') {
+                    return false;
+                }
+                return true;
+            }
+
+            getError = (category, quality, brand, color, size) => {
+                if (category === 'invalid') {
+                    return 'Please select a category';
+                }
+                if (quality === 'invalid') {
+                    return 'Please select a quality';
+                }
+                if (brand === '') {
+                    return 'Brand can not be blank!';
+                }
+                if (color === '') {
+                    return 'Color can not be blank!';
+                }
+                if (size === '') {
+                    return 'Size can not be blank!';
+                }
+                return 'Unknown Error'
+            }
+
+            $categorySubmit.on('click', () => {
+                let categoryName = $('#newCategory').val().toLowerCase();
+                console.log(categoryName);
+                let categoryData = {
+                    category: categoryName,
+                };
+                console.log(categoryData);
+                $.post('/api/addCategory', categoryData, data => {
+                    $('#newCategory').val('');
+                    console.log(data);
+                    location.reload();
+                    // getCategories();
+                })
+                // make post request to add the category
+            })
+
+            // listeners
+            $submitButton.on('click', () => {
+                // console.log('button clicked');
+                let $category = $('#categoriesSelect').val().toLowerCase();
+                let $quality = $('#qualitySelect').val();
+                let $brand = $('#brand').val();
+                let $color = $('#color').val();
+                let $size = $('#size').val();
+
+                // console.log(`Category: ${$category}\nQuality: ${$quality}\nBrand: ${$brand}\nColor: ${$color}\nSize: ${$size}`);
+
+                // run a validation function that returns true or false
+                if (validateItem($category, $quality, $brand, $color, $size)) {
+                    let itemData = {
+                        id: Math.random() * (10000 - 0) + 0,
+                        brand: $brand,
+                        quality: $quality,
+                        color: $color,
+                        size: $size,
+                        category: $category.toLowerCase()
+                    }
+                    // make post request
+                    $.post('/api/newItem', itemData, (data) => {
+                        // console.log(data);
+                        // remove any error messages
+                        $('.errorMessageContent').addClass('messageHidden');
+                        // display success message
+                        let successMessageHeader = $('#successMessageHeader').text('SUCCESS!');
+                        $('#successMessageBody').empty();
+                        $('#successMessageBody').text('Product successfully added!');
+                        $('.successMessageContent').removeClass('messageHidden');
+                        // reset the form
+                        $('#categoriesSelect').val('invalid');
+                        $('#qualitySelect').val('invalid');
+                        $('#brand').val('');
+                        $('#color').val('');
+                        $('#size').val('');
+                    })
+                }
+                else {
+                    // display error message
+                    let errorMessage = getError($category, $quality, $brand, $color, $size);
+                    console.log(errorMessage);
+                    $('#errorMessageBody').empty();
+                    let errorMessageHeader = $('#errorMessageHeader').text('ERROR!');
+                    $('#errorMessageBody').text(errorMessage);
+                    $('.errorMessageContent').removeClass('messageHidden');
+
+                };
+
+                // if the return is true then post the item to the 'database' (push into the arrays...);
+            });
+
+            getCategories();
+
+        }); // end document.ready();
+    </script>
+
+</body>
+
+</html>

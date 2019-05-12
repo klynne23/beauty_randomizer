@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en" class="has-navbar-fixed-top">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Home</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+        integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <link rel="stylesheet" href="../style/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+</head>
+<style>
+    @import url('https://fonts.googleapis.com/css?family=Dancing+Script|Pacifico');
+
+    html {
+        background-image: url('https://images.unsplash.com/photo-1526045478516-99145907023c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80');
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-position: center;
+    }
+
+    body {
+        min-height: 100vh;
+    }
+
+    .navbar {
+        background-color: rgba(255, 255, 255, 0.24);
+    }
+
+    #nav-title {
+        font-family: 'Pacifico';
+        font-size: 2rem;
+        letter-spacing: 3px;
+        color: white;
+        text-shadow: 1px 1px 10px #ff6eff, 1px 1px 10px #ff00ddda;
+    }
+
+    .button {
+        background-color: #ffffff;
+        border-color: #ffbfff;
+        transition: .5s;
+        color: rgb(255, 255, 255);
+
+    }
+
+    .button span {
+        color: #ff8bff;
+        transition: .5s;
+    }
+
+    .button:hover {
+        border-color: black;
+    }
+
+    .button:hover span {
+        color: black;
+    }
+
+
+    .view-title {
+        margin-top: 10px;
+    }
+
+    .view-title.level {
+        margin-bottom: 0px;
+    }
+
+    .view-title p {
+        font-size: 4rem;
+        color: white;
+        font-family: 'Pacifico';
+        text-shadow: 1px 1px 10px #ffbfff, 1px 1px 10px #ff00ddda;
+    }
+
+    .itemsContainer {
+        text-align: center;
+        margin-top: 10px;
+        margin-bottom: 20px;
+    }
+
+    /* Keep from sticking to sides */
+    .cards-container {
+        /* max-width: 95%; */
+        margin: 0px 10px;
+    }
+
+    .category-header {
+        background: #ffa9ff;
+        display: block;
+    }
+
+    .category-body {
+        max-height: 500px;
+        overflow: scroll;
+    }
+
+    .board-item {
+        margin: 5px 0;
+        will-change: transform;
+    }
+
+    .single-item>span {
+        margin: 0 auto;
+    }
+
+    .item-category {
+        cursor: pointer;
+        transition: .5s;
+    }
+
+    .item-category:hover {
+        background: #ffd4ff;
+        transform: scale(0.9);
+    }
+
+    div.board-item-content.item-category.selectedCategory {
+        background: #ffd4ff;
+        transform: scale(0.9);
+    }
+
+    .board-item-content {
+        word-wrap: normal;
+        position: relative;
+        padding: 20px;
+        background: #fff;
+        border-radius: 4px;
+        font-size: 17px;
+        text-align: center;
+        -webkit-box-shadow: 0px 1px 3px 0 rgba(0, 0, 0, 0.2);
+        box-shadow: 0px 1px 3px 0 rgba(0, 0, 0, 0.2);
+        margin: 5px;
+    }
+
+    .board-item-content.all-items {
+        display: flex;
+    }
+
+    .single-item {
+        flex: 1;
+    }
+
+    .title {
+        font-size: 1.5rem;
+    }
+
+    .items-header {
+        display: block;
+    }
+
+    @media screen and (max-width: 1087px) {
+        .navbar-menu {
+            background-color: rgba(255, 255, 255, 0);
+        }
+    }
+
+</style>
+
+<body id='all'>
+    <nav class="navbar is-fixed-top">
+        <div class="navbar-brand">
+            <p class="navbar-item">
+                <span id='nav-title'>Makeup Randomizer</span>
+            </p>
+            <div class="navbar-burger burger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+
+        <div class="navbar-menu">
+            <div class="navbar-end">
+                <div class="navbar-item">
+                    <div class="field is-grouped">
+                        <p class="control">
+                            <a class="button" href="/">
+                                <span class="icon">
+                                    <i class="fas fa-home"></i>
+                                </span>
+                                <!-- <span>Home</span>s -->
+                            </a>
+                        </p>
+                        <p class="control">
+                            <a class="button" href="/addItem">
+                                <span class="icon">
+                                    <i class="fas fa-plus"></i>
+                                </span>
+                                <!-- <span> Add Item </span> -->
+                            </a>
+                        </p>
+                        <p class="control">
+                            <a class="button" href="/viewSaved">
+                                <span class="icon">
+                                    <i class="fas fa-star"></i>
+                                </span>
+                                <!-- <span>Saved Looks</span> -->
+                            </a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="view-title level">
+        <p class="level-item has-text-centered">
+            Your Makeup Library!
+        </p>
+    </div>
+
+    <div class="container itemsContainer">
+        <div class="columns is-multiline is-centered cards-container" id="sectioncontainer">
+            <div class="column is-4">
+                <article class="message">
+                    <div class="message-header category-header">
+                        <p>Categories</p>
+                    </div>
+                    <div class="message-body category-body">
+                    </div>
+                </article>
+            </div>
+            <div class="column is-8">
+                <article class="message">
+                    <div class="message-header items-header">
+                        <p id='itemsHeader'>Select a Category!</p>
+                    </div>
+                    <div class="message-body item-body">
+                    </div>
+                </article>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            let currentSelection = '';
+            let chosenCategory;
+
+            // Check for click events on the navbar burger icon
+            $(".navbar-burger").click(function () {
+                // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
+                $(".navbar-burger").toggleClass("is-active");
+                $(".navbar-menu").toggleClass("is-active");
+            });
+            $(document).on('click', '.item-category', (e) => {
+                chosenCategory = e.currentTarget.dataset.category;
+                let categoryItems = []
+                $.get('/api/makeup', data => {
+                    data.forEach(category => {
+                        if (chosenCategory === category.category) {
+                            categoryItems = category.items;
+                            return;
+                        }
+                    })
+                    if (currentSelection === '') {
+                        currentSelection = chosenCategory;
+                        newSelection = $('.category-body').find(`[data-category="${chosenCategory}"]`);
+                        newSelection.addClass('selectedCategory');
+                        renderItems(chosenCategory, categoryItems);
+                    }
+                    else {
+                        let previousSelection = $('.category-body').find(`[data-category="${currentSelection}"]`);
+                        previousSelection.removeClass('selectedCategory');
+                        newSelection = $('.category-body').find(`[data-category="${chosenCategory}"]`);
+                        newSelection.addClass('selectedCategory');
+                        currentSelection = chosenCategory;
+                        renderItems(chosenCategory, categoryItems);
+                    }
+                })
+            })
+            $(document).on('click', '.deleteItem', (e) => {
+                let dataset = e.currentTarget.dataset;
+                console.log(dataset.id, dataset.category);
+                let data = {
+                    id: dataset.id,
+                    category: dataset.category
+                }
+                // make a get request
+                $.post('/api/deleteItem', data, categories => {
+                    console.log(categories);
+                    $.get('/api/makeup', data => {
+                    data.forEach(category => {
+                        if (chosenCategory === category.category) {
+                            categoryItems = category.items;
+                            return;
+                        }
+                    })
+                    if (currentSelection === '') {
+                        currentSelection = chosenCategory;
+                        newSelection = $('.category-body').find(`[data-category="${chosenCategory}"]`);
+                        newSelection.addClass('selectedCategory');
+                        renderItems(chosenCategory, categoryItems);
+                    }
+                    else {
+                        let previousSelection = $('.category-body').find(`[data-category="${currentSelection}"]`);
+                        previousSelection.removeClass('selectedCategory');
+                        newSelection = $('.category-body').find(`[data-category="${chosenCategory}"]`);
+                        newSelection.addClass('selectedCategory');
+                        currentSelection = chosenCategory;
+                        renderItems(chosenCategory, categoryItems);
+                    }
+                })
+
+                })
+            })
+
+            renderItems = (categoryName, items) => {
+                // console.log(categoryName, items.length);
+                let categoryHeader = $('#itemsHeader').empty().text(categoryName.toUpperCase());
+                let itemBody = $('.item-body').empty();
+                let itemContainer = $('<div>').addClass('board-item');
+                if (items.length >= 1) {
+                    // display the items
+                    // console.log(items);
+                    items.forEach(item => {
+                        let itemContent = $('<div>').addClass('board-item-content all-items');
+                        let brandDiv = $('<div>').addClass('single-item');
+                        let brandHeading = $('<p>').addClass('heading').text('BRAND');
+                        let brandTitle = $('<p>').addClass('title').text(item.brand);
+                        brandDiv.append(brandHeading, brandTitle);
+                        let qualityDiv = $('<div>').addClass('single-item');
+                        let qualityHeading = $('<p>').addClass('heading').text('Quality');
+                        let qualityTitle = $('<p>').addClass('title').text(item.quality);
+                        qualityDiv.append(qualityHeading, qualityTitle);
+                        let colorDiv = $('<div>').addClass('single-item');
+                        let colorHeading = $('<p>').addClass('heading').text('Color');
+                        let colorTitle = $('<p>').addClass('title').text(item.color);
+                        colorDiv.append(colorHeading, colorTitle);
+                        let sizeDiv = $('<div>').addClass('single-item');
+                        let sizeHeading = $('<p>').addClass('heading').text('Size');
+                        let sizeTitle = $('<p>').addClass('title').text(item.size);
+                        sizeDiv.append(sizeHeading, sizeTitle);
+
+                        let deleteButton = $("<span>").addClass('deleteItem').attr('data-id', item.id).attr('data-category', item.category);
+                        let button = $('<i>').addClass('far fa-trash-alt');
+                        deleteButton.append(button);
+
+                        itemContent.append(brandDiv, qualityDiv, colorDiv, sizeDiv);
+                        itemContainer.append(itemContent, deleteButton);
+                        itemBody.append(itemContainer);
+                    })
+                }
+                else {
+                    let itemContent = $('<div>').addClass('board-item-content');
+                    let span = $('<span>').text('This category has no items!');
+
+                    itemContent.append(span);
+                    itemContainer.append(itemContent);
+                    itemBody.append(itemContainer);
+                }
+            }
+
+            renderCategory = (categoryName) => {
+                let categoryBody = $('.category-body');
+                let item = $('<div>').addClass('board-item');
+                let itemContent = $('<div>').addClass('board-item-content item-category');
+                itemContent.attr('data-category', categoryName);
+                let span = $('<span>').text(categoryName.toUpperCase());
+
+                itemContent.append(span);
+                item.append(itemContent);
+                categoryBody.append(item);
+            }
+
+            getAllItems = () => {
+                // get request for the makeup data
+                $.get('/api/makeup', (data) => {
+                    let categories = []
+                    data.forEach(category => {
+                        categories.push(category.category);
+                    });
+                    categories = categories.sort();
+                    categories.forEach(categoryName => {
+                        renderCategory(categoryName);
+                    })
+                });
+            }
+
+            getAllItems();
+        }); // end document.ready();
+    </script>
+</body>
+
+</html>

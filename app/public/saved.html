@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en" class="has-navbar-fixed-top">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Saved Looks</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+        integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+</head>
+<style>
+    @import url('https://fonts.googleapis.com/css?family=Dancing+Script|Pacifico');
+
+    html {
+        background-image: url('https://images.unsplash.com/photo-1526045478516-99145907023c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80');
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-position: center;
+    }
+
+    body {
+        min-height: 100vh;
+    }
+
+    .navbar {
+        background-color: rgba(255, 255, 255, 0.24);
+    }
+
+    #nav-title {
+        font-family: 'Pacifico';
+        font-size: 2rem;
+        letter-spacing: 3px;
+        color: white;
+        text-shadow: 1px 1px 10px #ff6eff, 1px 1px 10px #ff00ddda;
+    }
+
+    .button {
+        background-color: #ffffff;
+        border-color: #ffbfff;
+        transition: .5s;
+        color: rgb(255, 255, 255);
+
+    }
+
+    .button span {
+        color: #ff8bff;
+        transition: .5s;
+    }
+
+    .button:hover {
+        border-color: black;
+    }
+
+    .button:hover span {
+        color: black;
+    }
+
+
+    .view-title {
+        margin-top: 10px;
+    }
+
+    .view-title.level {
+        margin-bottom: 0px;
+    }
+
+    .view-title p {
+        font-size: 4rem;
+        color: white;
+        font-family: 'Pacifico';
+        text-shadow: 1px 1px 10px #ffbfff, 1px 1px 10px #ff00ddda;
+    }
+
+    .looksContainer {
+        text-align: center;
+        margin: 0 auto;
+    }
+
+    .cards-container {
+        margin: 0px 10px;
+        display: flex;
+    }
+
+    .item-body {
+        max-height: 400px;
+        overflow: scroll;
+    }
+
+
+    .board-item {
+        margin: 5px 0;
+        will-change: transform;
+    }
+
+    .board-item-content {
+        word-wrap: normal;
+        position: relative;
+        padding: 20px;
+        background: #fff;
+        border-radius: 4px;
+        font-size: 17px;
+        text-align: center;
+        -webkit-box-shadow: 0px 1px 3px 0 rgba(0, 0, 0, 0.2);
+        box-shadow: 0px 1px 3px 0 rgba(0, 0, 0, 0.2);
+        margin: 5px;
+    }
+
+    .board-item-content.all-items {
+        display: flex;
+    }
+
+    .single-item {
+        flex: 1;
+    }
+
+    p.title {
+        font-size: 1rem;
+    }
+
+    @media screen and (max-width: 1087px) {
+        .navbar-menu {
+            background-color: rgba(255, 255, 255, 0);
+        }
+    }
+
+    @media screen and (min-width: 1280px) {
+        .container {
+            width: auto;
+        }
+    }
+
+    @media screen and (min-width: 1088px) {
+        .container {
+            width: auto;
+            max-width: 3000px;
+        }
+    }
+
+    /* img  */
+    .lookImages {
+        align-items: center;
+        margin: 10px;
+    }
+
+    .control {
+        display: flex;
+    }
+
+    .input {
+        margin-right: 10px;
+    }
+
+    img {
+        max-width: 480px;
+        margin: 15px;
+    }
+
+    .message-body {
+        padding-top: 0;
+    }
+</style>
+
+<body id='saved'>
+    <nav class="navbar is-transparent is-fixed-top">
+        <div class="navbar-brand">
+            <p class="navbar-item">
+                <span id='nav-title'>Makeup Randomizer</span>
+            </p>
+            <div class="navbar-burger burger" data-target="navbarExampleTransparentExample">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+
+        <div class="navbar-menu">
+            <div class="navbar-end">
+                <div class="navbar-item">
+                    <div class="field is-grouped">
+                        <p class="control">
+                            <a class="button" href="/">
+                                <span class="icon">
+                                    <i class="fas fa-home"></i>
+                                </span>
+                                <!-- <span> Home  </span> -->
+                            </a>
+                        </p>
+                        <p class="control">
+                            <a class="button" href="/addItem">
+                                <span class="icon">
+                                    <i class="fas fa-plus"></i>
+                                </span>
+                                <!-- <span> Add Item </span> -->
+                            </a>
+                        </p>
+                        <p class="control">
+                            <a class="button" href="/viewAllItems">
+                                <span class="icon">
+                                    <i class="fas fa-eye"></i>
+                                </span>
+                                <!-- <span>View All</span> -->
+                            </a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="view-title level">
+        <p class="level-item has-text-centered">
+            Your Saved Looks!
+        </p>
+    </div>
+
+    <div class="container looksContainer">
+        <!-- <a href="/api/viewsaved">View Saved Looks</a> -->
+        <div class="columns is-multiline is-centered cards-container">
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            // click events on the navbar burger icon
+            $(".navbar-burger").click(() => {
+                $(".navbar-burger").toggleClass("is-active");
+                $(".navbar-menu").toggleClass("is-active");
+            });
+            $(document).on('click', '.deleteLook', (e) => {
+                let id = e.currentTarget.dataset.id;
+                console.log(id);
+                let data = {
+                    id
+                }
+                $.post('/api/deleteLook', data, savedLooks => {
+                    renderLooks(savedLooks);
+                })
+            })
+
+            $(document).on('click', '.submitImg', (e) => {
+                let id = e.target.dataset.id
+                let lookNum = e.target.dataset.looknum;
+                let link = $(`.${lookNum}`).val();
+                let image = {
+                    id,
+                    image: link
+                }
+                console.log(image)
+                $.post('/api/addImage', image, response => {
+                    console.log(response);
+                    let img = $(`#${response.id}`);
+                    img.attr('src', `${response.image}`);
+                    console.log(img);
+                    location.reload();
+
+                })
+        })
+
+            renderLooks = (allLooks) => {
+                let cardsContainer = $('.cards-container').empty();
+                let lookNum = 1;
+                allLooks.forEach(look => {
+                    // console.log(look);
+                    let column = $('<div>').addClass('column is-6');
+                    let message = $('<article>').addClass('message');
+                    let messageHeader = $('<div>').addClass('message-header look-header');
+                    let headerP = $('<span>').text('Look #' + lookNum);
+                    let deleteButton = $("<span>").addClass('deleteLook').attr('data-id', look.id);
+                    let button = $('<i>').addClass('far fa-trash-alt');
+                    deleteButton.append(button);
+
+                    messageHeader.append(headerP, deleteButton);
+                    message.append(messageHeader);
+                    let itemBody = $('<div>').addClass('message-body item-body');
+                    let itemContainer = $('<div>').addClass('board-item');
+
+                    let imageDiv = $('<div>').addClass('lookImages');
+                    let imageLabel = $('<label>').addClass('label').text('Add Image URL');
+                    let imageInputControl = $('<div>').addClass('control');
+                    let imageInput = $('<input>').addClass(`input ${lookNum}`).attr('id', `${look.id}`).attr('type', 'text');
+                    let imageButton = $('<a>').addClass('button is-success submitImg').text('Submit').attr('data-lookNum', `${lookNum}`).attr('data-id', `${look.id}`);
+                    let img = $('<img>').attr('id', `${look.id}`).attr('src', `${look.image}`).attr('alt', `pic${lookNum}`).attr('data-id', `${look.id}`);
+                    imageInputControl.append(imageInput, imageButton);
+                    imageDiv.append(imageLabel, imageInputControl, img);
+                    itemContainer.append(imageDiv);
+
+                    look.look.forEach(item => {
+                        let itemContent = $('<div>').addClass('board-item-content all-items');
+                        let categoryDiv = $('<div>').addClass('single-item');
+                        let categoryHeading = $('<p>').addClass('heading').text('Category');
+                        let categoryTitle = $('<p>').addClass('title').text(item.category.toUpperCase());
+                        categoryDiv.append(categoryHeading, categoryTitle);
+                        let brandDiv = $('<div>').addClass('single-item');
+                        let brandHeading = $('<p>').addClass('heading').text('BRAND');
+                        let brandTitle = $('<p>').addClass('title').text(item.brand);
+                        brandDiv.append(brandHeading, brandTitle);
+                        let qualityDiv = $('<div>').addClass('single-item');
+                        let qualityHeading = $('<p>').addClass('heading').text('Quality');
+                        let qualityTitle = $('<p>').addClass('title').text(item.quality);
+                        qualityDiv.append(qualityHeading, qualityTitle);
+                        let colorDiv = $('<div>').addClass('single-item');
+                        let colorHeading = $('<p>').addClass('heading').text('Color');
+                        let colorTitle = $('<p>').addClass('title').text(item.color);
+                        colorDiv.append(colorHeading, colorTitle);
+                        let sizeDiv = $('<div>').addClass('single-item');
+                        let sizeHeading = $('<p>').addClass('heading').text('Size');
+                        let sizeTitle = $('<p>').addClass('title').text(item.size);
+                        sizeDiv.append(sizeHeading, sizeTitle);
+
+                        itemContent.append(categoryDiv, brandDiv, qualityDiv, colorDiv, sizeDiv);
+                        itemContainer.append(itemContent);
+                        itemBody.append(itemContainer);
+
+                        message.append(itemBody);
+                        column.append(message);
+                        cardsContainer.append(column);
+                    })
+
+                    lookNum++;
+                });
+            }
+
+            // loadFile = (event) => {
+            //     let id = event.target.dataset.id
+            //     var image = document.getElementById(`${id}`);
+            //     image.src = URL.createObjectURL(event.target.files[0]);
+
+            //     imageSrc = URL.createObjectURL(event.target.files[0]);
+            //     imageSrc = imageSrc.split('blob:');
+            //     image = {
+            //         id,
+            //         image: imageSrc
+            //     }
+            //     $.post('api/addImage', image, response => {
+            //         console.log(response);
+            //     })
+            //     console.log(imageSrc);
+
+            // };
+
+            getLooks = () => {
+                $.get('/api/savedLooks', (data) => {
+                    // console.log(data);
+                    renderLooks(data);
+                });
+            }
+
+            getLooks();
+        }); // end document.ready();
+    </script>
+</body>
+
+</html>
