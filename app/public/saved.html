@@ -237,7 +237,7 @@
                     id
                 }
                 $.post('/api/deleteLook', data, savedLooks => {
-                    renderLooks(savedLooks);
+                    getLooks();
                 })
             })
 

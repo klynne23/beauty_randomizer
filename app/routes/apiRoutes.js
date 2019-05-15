@@ -1,6 +1,6 @@
 // require the data
-let categories = require('../code/categories');
-// let categories = require('../code/data');
+// let categories = require('../code/categories');
+let categories = require('../code/data');
 let savedLooks = require('../code/savedLooks');
 
 // routes
