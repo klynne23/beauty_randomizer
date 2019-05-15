@@ -160,6 +160,7 @@
 
     .message-body {
         padding-top: 0;
+        border: none;
     }
 </style>
 
@@ -257,7 +258,7 @@
                     location.reload();
 
                 })
-        })
+            })
 
             renderLooks = (allLooks) => {
                 let cardsContainer = $('.cards-container').empty();
@@ -323,28 +324,35 @@
                 });
             }
 
-            // loadFile = (event) => {
-            //     let id = event.target.dataset.id
-            //     var image = document.getElementById(`${id}`);
-            //     image.src = URL.createObjectURL(event.target.files[0]);
+            renderEmpty = () => {
+                let cardsContainer = $('.cards-container').empty();
+                let column = $('<div>').addClass('column is-6');
+                let itemBody = $('<div>').addClass('message-body item-body');
+                let itemContainer = $('<div>').addClass('board-item');
+                let itemContent = $('<div>').addClass('board-item-content all-items');
+                let categoryDiv = $('<div>').addClass('single-item');
+                let text = $('<p>').text("You have no saved looks! Once you create a look you like, save it and it will appear here!");
 
-            //     imageSrc = URL.createObjectURL(event.target.files[0]);
-            //     imageSrc = imageSrc.split('blob:');
-            //     image = {
-            //         id,
-            //         image: imageSrc
-            //     }
-            //     $.post('api/addImage', image, response => {
-            //         console.log(response);
-            //     })
-            //     console.log(imageSrc);
+                categoryDiv.append(text);
+                itemContent.append(categoryDiv);
+                itemContainer.append(itemContent);
+                itemBody.append(itemContainer);
+                column.append(itemBody);
+                cardsContainer.append(column);
 
-            // };
+
+            }
 
             getLooks = () => {
                 $.get('/api/savedLooks', (data) => {
-                    // console.log(data);
-                    renderLooks(data);
+                    console.log(data);
+                    if (data.length === 0) {
+                        console.log('no saved looks');
+                        renderEmpty();
+                    }
+                    else {
+                        renderLooks(data);
+                    }
                 });
             }
 
