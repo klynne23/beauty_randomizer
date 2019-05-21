@@ -1,6 +1,6 @@
 // require the data
-// let categories = require('../code/categories');
-let categories = require('../code/data');
+let categories = require('../code/categories');
+// let categories = require('../code/data');
 let savedLooks = require('../code/savedLooks');
 
 // routes
@@ -52,11 +52,11 @@ module.exports = function(app) {
         
         savedLooks.forEach(look => {
             if(look.id === req.body.id) {
-                console.log(req.body);
-                console.log(look.id, look.image);
+                // console.log(req.body);
+                // console.log(look.id, look.image);
                 look.image = req.body.image;
                 let updatedLook = look;
-                console.log(updatedLook.image);
+                // console.log(updatedLook.image);
                 res.send(updatedLook);
             }
         })
